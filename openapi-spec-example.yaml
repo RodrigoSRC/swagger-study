@@ -1,0 +1,170 @@
+openapi: 3.0.3
+info:
+  title: Produtos API
+  description: |
+    Exemplo de documento OpenAPI escrito manualmente (abordagem Spec-First).
+    Este arquivo descreve a mesma API que foi gerada automaticamente
+    pelo @nestjs/swagger (abordagem Code-First).
+  version: '1.0.0'
+  contact:
+    name: Swagger Study
+
+servers:
+  - url: http://localhost:3000
+    description: Servidor local
+
+tags:
+  - name: products
+    description: Operações de produtos
+
+paths:
+  /products:
+    get:
+      tags: [products]
+      summary: Listar todos os produtos
+      operationId: findAll
+      responses:
+        '200':
+          description: Lista de produtos
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Product'
+
+    post:
+      tags: [products]
+      summary: Criar um produto
+      operationId: create
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateProductDto'
+      responses:
+        '201':
+          description: Produto criado com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+
+  /products/{id}:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        description: ID do produto
+        schema:
+          type: integer
+          example: 1
+
+    get:
+      tags: [products]
+      summary: Buscar um produto por ID
+      operationId: findOne
+      responses:
+        '200':
+          description: Produto encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+        '404':
+          description: Produto não encontrado
+
+    put:
+      tags: [products]
+      summary: Atualizar um produto
+      operationId: update
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateProductDto'
+      responses:
+        '200':
+          description: Produto atualizado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+        '404':
+          description: Produto não encontrado
+
+    delete:
+      tags: [products]
+      summary: Remover um produto
+      operationId: remove
+      responses:
+        '200':
+          description: Produto removido
+        '404':
+          description: Produto não encontrado
+
+components:
+  schemas:
+    Product:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+          description: ID do produto
+        name:
+          type: string
+          example: Teclado Mecânico
+          description: Nome do produto
+        price:
+          type: number
+          format: float
+          example: 99.9
+          description: Preço do produto
+        description:
+          type: string
+          example: Teclado mecânico RGB com switches blue
+          description: Descrição do produto
+      required:
+        - id
+        - name
+        - price
+        - description
+
+    CreateProductDto:
+      type: object
+      properties:
+        name:
+          type: string
+          example: Teclado Mecânico
+          description: Nome do produto
+        price:
+          type: number
+          format: float
+          example: 99.9
+          description: Preço do produto
+        description:
+          type: string
+          example: Teclado mecânico RGB com switches blue
+          description: Descrição do produto
+      required:
+        - name
+        - price
+        - description
+
+    UpdateProductDto:
+      type: object
+      description: Todos os campos são opcionais
+      properties:
+        name:
+          type: string
+          example: Teclado Mecânico
+        price:
+          type: number
+          format: float
+          example: 149.9
+        description:
+          type: string
+          example: Teclado atualizado

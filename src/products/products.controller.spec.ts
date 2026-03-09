@@ -51,4 +51,39 @@ describe('ProductsController', () => {
       expect(result).toEqual(mockProduct);
     });
   });
+
+  describe('findAll', () => {
+    it('should call service.findAll and return an array of products', () => {
+      const result = controller.findAll();
+
+      expect(mockProductsService.findAll).toHaveBeenCalled();
+      expect(result).toEqual([mockProduct]);
+    });
+  });
+
+  describe('findOne', () => {
+    it('should call service.findOne with the id and return the product', () => {
+      const result = controller.findOne(1);
+
+      expect(mockProductsService.findOne).toHaveBeenCalledWith(1);
+      expect(result).toEqual(mockProduct);
+    });
+  });
+
+  describe('update', () => {
+    it('should call service.update with the id and dto, and return the updated product', () => {
+      const updateDto = { name: 'Teclado Gamer' };
+      const result = controller.update(1, updateDto);
+
+      expect(mockProductsService.update).toHaveBeenCalledWith(1, updateDto);
+      expect(result).toEqual({ ...mockProduct, name: 'Teclado Gamer' });
+    });
+  });
+
+  describe('remove', () => {
+    it('should call service.remove with the id', () => {
+      controller.remove(1);
+      expect(mockProductsService.remove).toHaveBeenCalledWith(1);
+    });
+  });
 });

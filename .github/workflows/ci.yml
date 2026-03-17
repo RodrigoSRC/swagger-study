@@ -12,10 +12,10 @@ jobs: # Define os jobs (podem ser vários em paralelo)
 
     steps: # etapas dentro do job
       - name: Checkout de código # baixa seu código do runner
-        uses: actions/checkout@v2 # Action oficial do Github
+        uses: actions/checkout@v4 # Action oficial do Github
 
       - name: Configurar Node.js
-        uses: actions/setup-node@v2 # Action para instalar Node.js
+        uses: actions/setup-node@v4 # Action para instalar Node.js
         with:
           node-version: '22' # versão ndo node
           cache: 'npm' # faz cache do node_modules (mais rápido)

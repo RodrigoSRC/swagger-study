@@ -1,0 +1,33 @@
+name: CI # Nome do workflow
+
+on: # O que dispara esse workflow
+  push:
+    branches: [main] # Dispara quando fizer um push na main
+  pull_request:
+    branches: [main] # Dispara quando abrir PR para a main
+
+jobs: # Define os jobs (podem ser vários em paralelo)
+  build-and-test: # Nome do job (você escolhe)
+    runs-on: ubuntu-latest # Qual máquina virtual usar
+
+    steps: # etapas dentro do job
+      - name: Checkout de código # baixa seu código do runner
+        uses: actions/checkout@v2 # Action oficial do Github
+
+      - name: Configurar Node.js
+        uses: actions/setup-node@v2 # Action para instalar Node.js
+        with:
+          node-version: '22' # versão ndo node
+          cache: 'npm' # faz cache do node_modules (mais rápido)
+
+      - name: Instalar dependências
+        run: npm ci # mais seguro que npm i em CI
+
+      - name: Lint
+        run: npm run lint # Verifica padrões de código
+
+      - name: Testes Unitários
+        run: npm test # Roda os testes
+
+      - name: Build
+        run: npm run build # compila o TS
